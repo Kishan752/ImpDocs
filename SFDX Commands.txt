@@ -1,0 +1,76 @@
+
+// List All the commands
+sfdx commands
+
+//Help for a command
+sfdx force:auth:web:login --help
+
+// authorize a user setting it default for all SFDX commands and setting default as dev hub
+sfdx force:auth:web:login -a myDevhub -s -d          
+
+// Set config files
+sfdx config:set defaultdevhubusername=myDevHub            
+
+// Rerieve Component from package.xml file. we use -x to tell package.XML in case of manifest project
+ sfdx force:source:retrieve -x .\manifest\package.xml 
+ 
+ //Creating a LWC component. -d to specify directry where the Comp will be created --type to tell whether aura or LWC component
+ sfdx force:lightning:component:create -n myLwcComp -d .\force-app\main\default\lwc\ --type=lwc 
+ 
+ //Deploy changes to org it will only deploye one LWC comp we can cntrol this. -p is shortcut to specify sourcepath. multiple //options such as checkOnly etc is avaiblable 
+ 
+ sfdx force:source:deploy -p .\force-app\main\default\lwc\myLwcComp\ 
+ 
+ //Delete a component permanantly
+ sfdx force:source:delete -p .\force-app\main\default\lwc\myLwcComp\ 
+
+// Run test classes. -l specify what mode of testing to be done. -c will show coverage on screen -r defines output format such //human, JSON etc
+ 
+ sfdx force:apex:test:run -l RunAllTestsInOrg -c -r=human 
+ 
+ // Run specific test classes to see the coverage
+ sfdx force:apex:test:run -n TestContactController  -c -r=human 
+ 
+ //Create Apex classes , below command will create a test class, we specify class type with -t
+ sfdx force:apex:class:create -n mytestClass -t=ApexUnitTest -d .\force-app\main\default\classes\
+ 
+ // Query salesforce data
+  sfdx force:data:soql:query -q="select id, name from Account limit 10" -r human
+ 
+ // create a record in Org values should be API name = values. -s Sobject type and values is key value pair of record data
+ sfdx force:data:record:create -s "Account" --values "Name='Hola Amigo'"
+ 
+ // Updating a record with Id
+  sfdx force:data:record:update -s "Account" -i "0015g00000TjlHXAAZ"  --values "Name='Hola Amigo-kishan'"
+  
+  //Deleting a record
+  sfdx force:data:record:delete -s "Account" -i "0015g00000TjlHXAAZ"  
+  
+  //Export Data with Plan. Plan specifies how the record will be imported later means parent first ad child later
+  sfdx force:data:tree:export --query="SELECT Id,Name,(SELECT Id,Firstname,LastName,AccountId from Contacts) from Account" --plan --outputdir .\sample-data\ 
+  
+  // Impot Data with Plan
+  sfdx force:data:tree:import -p .\sample-data\Account-Contact-plan.json
+  
+  //Create a Scratch Org for SFDX approached Development, -d tells the org is valida for 30 days. -f scratch config file path. //-s this Scratchorg will be default username now
+  
+  sfdx force:org:create -a myScratchOrg -d 30 -f .\config\project-scratch-def.json -s
+  
+  // Command To push Components in Scratch org. this command is only avaiblable in Scratch orgs
+   sfdx force:source:push
+   
+  //Open the default Scratch or dev org from VS code
+   
+   sfdx force:org:open
+   
+  // assign permission set to the Default user
+  sfdx force:user:permset:assign -n TreePlantation
+  
+  // status tells if there are any changes in scratch org and the local VS code. his is onlya avaiblable in scratch orgs
+  sfdx force:source:status -a  
+   
+   
+  
+  
+ 
+ 
