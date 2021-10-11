@@ -1,3 +1,15 @@
+#generating self Signed certificates using OpenSSL run the below commands in CMD
+#   // Creating Key
+#openssl genrsa -passout pass:x -out server.pass.key 2048
+# //generating server key
+# openssl rsa -passin pass:x -in server.pass.key -out server.key
+# //generate 
+#openssl req -new -key server.key -out server.csr
+#//generate cerificate now
+#openssl x509 -re -sha256 -days 365 -in server.csr -signkey server.key -out server.crt
+#once you get the certificate Create a connected app with the self signed certificate and se the key file in this Script during authorizaion
+
+#Script starts
 printf "Step 1:Setting up Temp variables";
 export DEV_UN=your_user_name_in_the_Dev_hub_org
 export consumer_key=Your_consumerkey_from_connected_App
