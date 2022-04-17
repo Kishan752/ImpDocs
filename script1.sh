@@ -8,7 +8,7 @@
 #//generate cerificate now
 #openssl x509 -req -sha256 -days 365 -in server.csr -signkey server.key -out server.crt
 #once you get the certificate Create a connected app with the self signed certificate and use the key file in this Script during authorizaion
-
+# Important:- while Creating connected App use http://localhost:1717/OauthRedirect as Callback URL if this Location is used then Use any other LocalHost address you would have to make changes in project Json file then
 #Script starts
 printf "Step 1:Setting up Temp variables";
 export DEV_UN=your_user_name_in_the_Dev_hub_org
